@@ -20,3 +20,5 @@ skip_list:
     - '208'
 use_default_rules: true
 verbosity: 0
+exclude_paths:
+    - .spotter.yml
