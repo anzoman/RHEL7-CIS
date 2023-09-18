@@ -1,0 +1,7 @@
+skip_checks:
+  - event: E001
+    fqcn: ansible.builtin.package
+  - event: E005
+    fqcn: ansible.builtin.package
+  - event: E802
+    fqcn: ansible.builtin.copy
