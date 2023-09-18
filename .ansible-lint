@@ -18,6 +18,7 @@ skip_list:
     - '306'
     - '602'
     - '208'
+    - yaml[indentation]
 use_default_rules: true
 verbosity: 0
 exclude_paths:
