@@ -4,7 +4,7 @@ set -eu
 
 run_linters() {
     ansible-lint
-    spotter scan --ansible-version 2.12 --display-level error .
+    spotter scan --ansible-version 2.12 --display-level warning .
 }
 
 run_help() {
