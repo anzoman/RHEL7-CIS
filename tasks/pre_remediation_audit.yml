@@ -67,7 +67,7 @@
       - name: Pre Audit Setup | If audit ensure goss is available
         ansible.builtin.assert:
             that: goss_available.stat.exists
-            msg: "Audit has been selected: unable to find goss binary at {{ audit_bin }}"
+            fail_msg: "Audit has been selected: unable to find goss binary at {{ audit_bin }}"
   when:
       - run_audit
 

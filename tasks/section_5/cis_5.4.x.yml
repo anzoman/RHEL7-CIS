@@ -3,10 +3,10 @@
 - name: "5.4.1 | PATCH | Ensure password creation requirements are configured"
   ansible.builtin.lineinfile:
       state: present
-      dest: "/etc/security/pwquality.conf"
+      path: "/etc/security/pwquality.conf"
       regexp: '^{{ item.key }}'
       line: '{{ item.key }} = {{ item.value }}'
-  with_items:
+  loop:
       - { key: 'minlen', value: '14' }
       - { key: 'minclass', value: '4' }
   when:
@@ -24,7 +24,7 @@
   block:
       - name: "5.4.2 | PATCH | Ensure lockout for failed password attempts is configured | Add deny count and unlock time for preauth"
         ansible.builtin.lineinfile:
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: present
             line: "auth        required      pam_faillock.so preauth audit silent deny={{ rhel7cis_pam_faillock.attempts }}{{ (rhel7cis_pam_faillock.fail_for_root) | ternary(' even_deny_root ',' ') }}unlock_time={{ rhel7cis_pam_faillock.unlock_time }}"
             insertafter: '^#?auth ?'
@@ -34,7 +34,7 @@
 
       - name: "5.4.2 | PATCH | Ensure lockout for failed password attempts is configured | Add success and default settings to pam_unix.so"
         ansible.builtin.lineinfile:
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: present
             line: "auth        [success=1 default=bad] pam_unix.so"
             insertafter: '^#?auth ?'
@@ -44,7 +44,7 @@
 
       - name: "5.4.2 | PATCH | Ensure lockout for failed password attempts is configured | Add default, deny count, and unlock times for authfail"
         ansible.builtin.lineinfile:
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: present
             line: "auth        [default=die] pam_faillock.so authfail audit deny={{ rhel7cis_pam_faillock.attempts }}{{ (rhel7cis_pam_faillock.fail_for_root) | ternary(' even_deny_root ',' ') }}unlock_time={{ rhel7cis_pam_faillock.unlock_time }}"
             insertafter: '^#?auth ?'
@@ -54,7 +54,7 @@
 
       - name: "5.4.2 | PATCH | Ensure lockout for failed password attempts is configured | Add deny count and unlock times to authsucc"
         ansible.builtin.lineinfile:
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: present
             line: "auth        sufficient    pam_faillock.so authsucc audit deny={{ rhel7cis_pam_faillock.attempts }}{{ (rhel7cis_pam_faillock.fail_for_root) | ternary(' even_deny_root ',' ') }}unlock_time={{ rhel7cis_pam_faillock.unlock_time }}"
             insertafter: '^#?auth ?'
@@ -64,7 +64,7 @@
 
       - name: "5.4.2 | PATCH | Ensure lockout for failed password attempts is configured | Activate deny count and unlock times to failed password"
         ansible.builtin.lineinfile:
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: present
             line: "account     required      pam_faillock.so"
             firstmatch: true
@@ -76,7 +76,7 @@
 
       - name: "5.4.3 | PATCH | Ensure password hashing algorithm is SHA-512 | add sha512 settings"
         ansible.builtin.lineinfile:
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: present
             line: "password    sufficient    pam_unix.so {{ rhel7cis_pam_faillock.pwhash }} shadow nullok try_first_pass use_authtok"
             insertafter: '^#?password ?'
@@ -86,7 +86,7 @@
 
       - name: "5.4.4 | PATCH | Ensure password reuse is limited | add remember settings"
         ansible.builtin.lineinfile:
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: present
             line: "password    required    pam_pwhistory.so remember={{ rhel7cis_pam_faillock.remember }}"
             insertafter: '^#?password ?'
@@ -117,7 +117,7 @@
                5.4.4 | PATCH | Ensure password reuse is limited | Setup symbolic link"
         ansible.builtin.file:
             src: "/etc/pam.d/{{ item }}-local"
-            dest: "/etc/pam.d/{{ item }}"
+            path: "/etc/pam.d/{{ item }}"
             state: link
             force: true
         loop:

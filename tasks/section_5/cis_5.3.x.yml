@@ -2,7 +2,7 @@
 
 - name: "5.3.1 | PATCH | Ensure permissions on /etc/ssh/sshd_config are configured"
   ansible.builtin.file:
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       state: file
       owner: root
       group: root
@@ -79,7 +79,7 @@
       - name: "5.3.4 | PATCH | Ensure SSH access is limited | Add line to sshd_config for allowusers"
         ansible.builtin.lineinfile:
             state: present
-            dest: /etc/ssh/sshd_config
+            path: /etc/ssh/sshd_config
             regexp: "^AllowUsers"
             insertbefore: "# Accept locale-related environment variables"
             line: AllowUsers {{ rhel7cis_sshd['allowusers'] }}
@@ -92,7 +92,7 @@
       - name: "5.3.4 | PATCH | Ensure SSH access is limited | Add line to sshd_config for allowgroups"
         ansible.builtin.lineinfile:
             state: present
-            dest: /etc/ssh/sshd_config
+            path: /etc/ssh/sshd_config
             regexp: "^AllowGroups"
             insertbefore: "# Accept locale-related environment variables"
             line: AllowGroups {{ rhel7cis_sshd['allowgroups'] }}
@@ -105,7 +105,7 @@
       - name: "5.3.4 | PATCH | Ensure SSH access is limited | Add line to sshd_config for denyusers"
         ansible.builtin.lineinfile:
             state: present
-            dest: /etc/ssh/sshd_config
+            path: /etc/ssh/sshd_config
             regexp: "^DenyUsers"
             insertbefore: "# Accept locale-related environment variables"
             line: DenyUsers {{ rhel7cis_sshd['denyusers'] }}
@@ -118,7 +118,7 @@
       - name: "5.3.4 | PATCH | Ensure SSH access is limited | Add line to sshd_config for denygroups"
         ansible.builtin.lineinfile:
             state: present
-            dest: /etc/ssh/sshd_config
+            path: /etc/ssh/sshd_config
             regexp: "^DenyGroups"
             insertbefore: "# Accept locale-related environment variables"
             line: DenyGroups {{ rhel7cis_sshd['denygroups'] }}
@@ -139,7 +139,7 @@
 - name: "5.3.5 | PATCH | Ensure SSH LogLevel is appropriate"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#LogLevel|^LogLevel"
       line: 'LogLevel {{ rhel7cis_ssh_loglevel }}'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -157,7 +157,7 @@
 - name: "5.3.6 | PATCH | Ensure SSH X11 forwarding is disabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#X11Forwarding|^X11Forwarding"
       line: 'X11Forwarding no'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -175,7 +175,7 @@
 - name: "5.3.7 | PATCH | Ensure SSH MaxAuthTries is set to 4 or less"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: '^(#)?MaxAuthTries \d'
       line: 'MaxAuthTries 4'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -193,7 +193,7 @@
 - name: "5.3.8 | PATCH | Ensure SSH IgnoreRhosts is enabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#IgnoreRhosts|^IgnoreRhosts"
       line: 'IgnoreRhosts yes'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -211,7 +211,7 @@
 - name: "5.3.9 | PATCH | Ensure SSH HostbasedAuthentication is disabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#HostbasedAuthentication|^HostbasedAuthentication"
       line: 'HostbasedAuthentication no'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -229,7 +229,7 @@
 - name: "5.3.10 | PATCH | Ensure SSH root login is disabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#PermitRootLogin|^PermitRootLogin"
       line: 'PermitRootLogin no'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -247,7 +247,7 @@
 - name: "5.3.11 | PATCH | Ensure SSH PermitEmptyPasswords is disabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#PermitEmptyPasswords|^PermitEmptyPasswords"
       line: 'PermitEmptyPasswords no'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -265,7 +265,7 @@
 - name: "5.3.12 | PATCH | Ensure SSH PermitUserEnvironment is disabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#PermitUserEnvironment|^PermitUserEnvironment"
       line: 'PermitUserEnvironment no'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -283,7 +283,7 @@
 - name: "5.3.13 | PATCH | Ensure only strong Ciphers are used"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: '^Ciphers'
       insertbefore: "# Accept locale-related environment variables"
       line: "Ciphers {{ rhel7cis_sshd['ciphers'] }}"
@@ -302,7 +302,7 @@
 - name: "5.3.14 | PATCH | Ensure only strong MAC algorithms are used"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: '^MACs'
       insertbefore: "# Accept locale-related environment variables"
       line: "MACs {{ rhel7cis_sshd['macs'] }}"
@@ -321,7 +321,7 @@
 - name: "5.3.15 | PATCH | Ensure only strong Key Exchange algorithms are used"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: '^KexAlgorithms'
       line: "KexAlgorithms {{ rhel7cis_sshd['kex'] }}"
       insertafter: '^MACs'
@@ -342,7 +342,7 @@
       - name: "5.3.16 | PATCH | Ensure SSH Idle Timeout Interval is configured | Add line in sshd_config for ClientAliveInterval"
         ansible.builtin.lineinfile:
             state: present
-            dest: /etc/ssh/sshd_config
+            path: /etc/ssh/sshd_config
             regexp: "^#ClientAliveInterval|^ClientAliveInterval"
             line: "ClientAliveInterval {{ rhel7cis_sshd['clientaliveinterval'] }}"
             validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -352,7 +352,7 @@
       - name: "5.3.16 | PATCH | Ensure SSH Idle Timeout Interval is configured | Ensure SSH ClientAliveCountMax set to <= 3"
         ansible.builtin.lineinfile:
             state: present
-            dest: /etc/ssh/sshd_config
+            path: /etc/ssh/sshd_config
             regexp: "^#ClientAliveCountMax|^ClientAliveCountMax"
             line: "ClientAliveCountMax {{ rhel7cis_sshd['clientalivecountmax'] }}"
             validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -370,7 +370,7 @@
 - name: "5.3.17 | PATCH | Ensure SSH LoginGraceTime is set to one minute or less"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#LoginGraceTime|^LoginGraceTime"
       line: "LoginGraceTime {{ rhel7cis_sshd['logingracetime'] }}"
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -387,13 +387,13 @@
 
 - name: "5.3.18 | PATCH | Ensure SSH warning banner is configured"
   ansible.builtin.lineinfile:
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: '^Banner ((?!/etc/issue.net$)).*$'
       line: "{{ item.line | default (omit) }}"
       insertafter: "{{ item.after | default(omit) }}"
       state: "{{ item.state }}"
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
-  with_items:
+  loop:
       - { state: absent }
       - { state: present, line: 'Banner /etc/issue.net', after: '#Banner none' }
   notify:
@@ -410,7 +410,7 @@
 - name: "5.3.19 | PATCH | Ensure SSH PAM is enabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#UsePAM|^UsePAM"
       line: 'UsePAM yes'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -428,7 +428,7 @@
 - name: "5.3.20 | PATCH | Ensure SSH AllowTcpForwarding is disabled"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#AllowTcpForwarding|^AllowTcpForwarding"
       line: 'AllowTcpForwarding no'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -446,7 +446,7 @@
 - name: "5.3.21 | PATCH | Ensure SSH MaxStartups is configured"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#MaxStartups|^MaxStartups"
       line: 'MaxStartups 10:30:60'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s
@@ -464,7 +464,7 @@
 - name: "5.3.22 | PATCH | Ensure SSH MaxSessions is limited"
   ansible.builtin.lineinfile:
       state: present
-      dest: /etc/ssh/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "^#MaxSessions|^MaxSessions"
       line: 'MaxSessions {{ rhel7cis_ssh_maxsessions }}'
       validate: /usr/sbin/sshd -T -C user=root -C host="$(hostname)" -C addr="$(grep $(hostname) /etc/hosts | awk '{print $1}')" -f %s

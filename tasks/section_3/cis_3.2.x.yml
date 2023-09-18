@@ -40,7 +40,7 @@
       state: present
       reload: true
       ignoreerrors: true
-  with_items:
+  loop:
       - { name: net.ipv4.conf.all.send_redirects, value: 0 }
       - { name: net.ipv4.conf.default.send_redirects, value: 0 }
   notify:

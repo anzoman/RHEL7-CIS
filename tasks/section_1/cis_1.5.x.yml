@@ -5,7 +5,7 @@
       - name: "1.5.1 | PATCH | Ensure core dumps are restricted | Update limits.conf file"
         ansible.builtin.lineinfile:
             state: present
-            dest: /etc/security/limits.conf
+            path: /etc/security/limits.conf
             regexp: '^#?\\*.*core'
             line: '*                hard    core            0'
             insertbefore: '^# End of file'
@@ -21,7 +21,7 @@
 
       - name: 1.5.1 | PATCH | Ensure core dumps are restricted | coredump.conf"
         ansible.builtin.lineinfile:
-            dest: /etc/systemd/coredump.conf
+            path: /etc/systemd/coredump.conf
             regexp: "{{ item.regex }}"
             line: "{{ item.line }}"
             create: true

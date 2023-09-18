@@ -44,7 +44,7 @@
       ctstate: '{{ item.ctstate }}'
       jump: ACCEPT
       ip_version: ipv6
-  with_items:
+  loop:
       - { chain: OUTPUT, protocol: tcp, ctstate: 'NEW,ESTABLISHED' }
       - { chain: OUTPUT, protocol: udp, ctstate: 'NEW,ESTABLISHED' }
       - { chain: OUTPUT, protocol: icmp, ctstate: 'NEW,ESTABLISHED' }
@@ -102,7 +102,7 @@
         ansible.builtin.iptables:
             chain: INPUT
             protocol: tcp
-            destination_port: 22
+            destination_port: "22"
             jump: ACCEPT
             ctstate: 'NEW,ESTABLISHED'
             ip_version: ipv6
@@ -111,7 +111,7 @@
         ansible.builtin.iptables:
             chain: OUTPUT
             protocol: tcp
-            source_port: 22
+            source_port: "22"
             jump: ACCEPT
             ctstate: 'NEW,ESTABLISHED'
             ip_version: ipv6
@@ -128,7 +128,7 @@
             policy: DROP
             chain: "{{ item }}"
             ip_version: ipv6
-        with_items:
+        loop:
             - INPUT
             - FORWARD
             - OUTPUT

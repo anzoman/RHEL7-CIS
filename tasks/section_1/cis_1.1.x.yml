@@ -37,7 +37,7 @@
               "1.1.4 | PATCH | Ensure nosuid option set on /tmp partition | fstab_config | skips if mount absent"
               "1.1.5 | PATCH | Ensure noexec option set on /tmp partition| fstab_config | skips if mount absent"
         ansible.posix.mount:
-            name: /tmp
+            path: /tmp
             src: "{{ item.device }}"
             fstype: "{{ item.fstype }}"
             state: present
@@ -108,7 +108,7 @@
          "1.1.8 | PATCH | Ensure nosuid option set on /dev/shm partition | skips if mount absent"
          "1.1.9 | PATCH | Ensure noexec option set on /dev/shm partition | skips if mount absent"
   ansible.posix.mount:
-      name: /dev/shm
+      path: /dev/shm
       src: tmpfs
       fstype: tmpfs
       state: present
@@ -186,7 +186,7 @@
           "1.1.13 | PATCH | Ensure nodec option set on /var/tmp partition | skips if mount absent"
           "1.1.14 | PATCH | Ensure nosuid option set on /var/tmp partition | skips if mount absent"
   ansible.posix.mount:
-      name: /var/tmp
+      path: /var/tmp
       src: "{{ item.device }}"
       fstype: "{{ item.fstype }}"
       state: present
@@ -291,7 +291,7 @@
 
 - name: "1.1.18 | PATCH | Ensure nodev option set on /home partition | skips if mount absent"
   ansible.posix.mount:
-      name: /home
+      path: /home
       src: "{{ item.device }}"
       fstype: "{{ item.fstype }}"
       state: present
@@ -366,7 +366,7 @@
   block:
       - name: "1.1.24 | PATCH | Disable USB Storage | Edit modprobe config"
         ansible.builtin.lineinfile:
-            dest: /etc/modprobe.d/CIS.conf
+            path: /etc/modprobe.d/CIS.conf
             regexp: "^(#)?install usb-storage(\\s|$)"
             line: "install usb-storage /bin/true"
             create: true

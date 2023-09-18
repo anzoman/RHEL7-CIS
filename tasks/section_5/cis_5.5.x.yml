@@ -57,7 +57,7 @@
   ansible.builtin.blockinfile:
       create: true
       mode: 0644
-      dest: "{{ item.dest }}"
+      path: "{{ item.dest }}"
       state: "{{ item.state }}"
       marker: "# {mark} ANSIBLE MANAGED"
       block: |

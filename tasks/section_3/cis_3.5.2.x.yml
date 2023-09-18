@@ -49,6 +49,7 @@
   block:
       - name: "3.5.2.4 | PATCH | Ensure iptables are flushed with nftables| Flush IPv4 tables"
         ansible.builtin.command: iptables -F
+        changed_when: false
 
       - name: "3.5.2.4 | PATCH | Ensure iptables are flushed with nftables | Flush IPv6 tables"
         ansible.builtin.command: ip6tables -F
@@ -68,6 +69,7 @@
       - name: "3.5.2.5 | AUDIT | Ensure an nftables table exists | Check for tables"
         ansible.builtin.command: nft list tables
         register: rhel7cis_3_5_2_5_nft_tables
+        changed_when: false
 
       - name: "3.5.2.5 | AUDIT | Ensure an nftables table exists | Show existing tables"
         ansible.builtin.debug:
@@ -104,14 +106,17 @@
       - name: "3.5.2.6 | AUDIT | Ensure nftables base chains exist | Get current chains for INPUT"
         ansible.builtin.shell: nft list ruleset | grep 'hook input'
         register: rhel7cis_3_5_2_6_input_chains
+        changed_when: false
 
       - name: "3.5.2.6 | AUDIT | Ensure nftables base chains exist | Get current chains for FORWARD"
         ansible.builtin.shell: nft list ruleset | grep 'hook forward'
         register: rhel7cis_3_5_2_6_forward_chains
+        changed_when: false
 
       - name: "3.5.2.6 | AUDIT | Ensure nftables base chains exist | Get current chains for OUTPUT"
         ansible.builtin.shell: nft list ruleset | grep 'hook output'
         register: rhel7cis_3_5_2_6_output_chains
+        changed_when: false
 
       - name: "3.5.2.6 | AUDIT | Ensure nftables base chains exist | Display chains for review"
         ansible.builtin.debug:
@@ -128,7 +133,7 @@
       - name: "3.5.2.6 | PATCH | Ensure nftables base chains exist | Create chains if needed"
         ansible.builtin.command: "{{ item }}"
         failed_when: false
-        with_items:
+        loop:
             - nft create chain inet "{{ rhel7cis_nft_tables_tableName }}" input { type filter hook input priority 0 \; }
             - nft create chain inet "{{ rhel7cis_nft_tables_tableName }}" forward { type filter hook forward priority 0 \; }
             - nft create chain inet "{{ rhel7cis_nft_tables_tableName }}" output { type filter hook output priority 0 \; }

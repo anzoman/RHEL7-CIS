@@ -40,7 +40,7 @@
 
       - name: "1.4.2 | PATCH | Ensure permissions on bootloader config are configured | UEFI"
         ansible.posix.mount:
-            name: /boot/efi
+            path: /boot/efi
             src: "UUID={{ item.uuid }}"
             fstype: vfat
             state: present
@@ -65,13 +65,13 @@
   block:
       - name: "1.4.3 | PATCH | Ensure authentication required for single user mode | Emergency service"
         ansible.builtin.lineinfile:
-            dest: /usr/lib/systemd/system/emergency.service
+            path: /usr/lib/systemd/system/emergency.service
             regexp: '/sbin/sulogin'
             line: 'ExecStart=-/bin/sh -c "/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
 
       - name: "1.4.3 | PATCH | Ensure authentication required for single user mode | Rescue service"
         ansible.builtin.lineinfile:
-            dest: /usr/lib/systemd/system/rescue.service
+            path: /usr/lib/systemd/system/rescue.service
             regexp: '/sbin/sulogin'
             line: 'ExecStart=-/bin/sh -c "/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
   when:

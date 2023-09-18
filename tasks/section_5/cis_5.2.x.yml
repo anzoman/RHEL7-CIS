@@ -18,7 +18,7 @@
 
 - name: "5.2.2 | AUDIT | Ensure sudo commands use pty"
   ansible.builtin.lineinfile:
-      dest: /etc/sudoers
+      path: /etc/sudoers
       regexp: '^Defaults    use_pty'
       line: 'Defaults    use_pty'
       state: present
@@ -35,7 +35,7 @@
 
 - name: "5.2.3 | PATCH | Ensure sudo log file exists"
   ansible.builtin.lineinfile:
-      dest: /etc/sudoers
+      path: /etc/sudoers
       regexp: '^Defaults    logfile="{{ rhel7cis_varlog_location }}"'
       line: 'Defaults    logfile="{{ rhel7cis_varlog_location }}"'
       state: present

@@ -20,7 +20,7 @@
 - name: Check rhel7cis_bootloader_password_hash variable has been changed
   ansible.builtin.assert:
       that: rhel7cis_bootloader_password_hash != 'grub.pbkdf2.sha512.changethispart'
-      msg: "This role will not be able to run single user password commands as  rhel7cis_bootloader_password_hash variable has not been set"
+      fail_msg: "This role will not be able to run single user password commands as  rhel7cis_bootloader_password_hash variable has not been set"
   when:
       - ansible_distribution_version >= '7.2'
       - rhel7cis_set_boot_pass
@@ -39,7 +39,7 @@
       - name: Check sugroup if defined exists before continuing
         ansible.builtin.assert:
             that: sugroup_exists.rc == 0
-            msg: "The variable rhel7cis_sugroup is defined but does not exist please rectify"
+            fail_msg: "The variable rhel7cis_sugroup is defined but does not exist please rectify"
   when:
       - rhel7cis_sugroup is defined
       - rhel7cis_rule_5_6

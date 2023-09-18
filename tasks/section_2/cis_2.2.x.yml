@@ -253,7 +253,7 @@
 
 - name: "2.2.16 | PATCH | Ensure mail transfer agent is configured for local-only mode"
   ansible.builtin.lineinfile:
-      dest: /etc/postfix/main.cf
+      path: /etc/postfix/main.cf
       regexp: "^(#)?inet_interfaces"
       line: "inet_interfaces = loopback-only"
   notify: restart postfix
