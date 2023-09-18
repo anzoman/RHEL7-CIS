@@ -1,0 +1,17 @@
+name: Test with Steampunk Spotter
+on: push
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+
+      - name: Scan Ansible content
+        uses: xlab-steampunk/spotter-action@2.3.0
+        with:
+          paths: .
+          ansible_version: 2.12
+          display_level: error
+        env:
+          SPOTTER_API_TOKEN: ${{ secrets.SPOTTER_API_TOKEN }}
