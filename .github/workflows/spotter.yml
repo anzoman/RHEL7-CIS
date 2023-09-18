@@ -1,11 +1,13 @@
-name: Test with Steampunk Spotter
+name: Steampunk Spotter
 on: push
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Scan Ansible content
         uses: xlab-steampunk/spotter-action@2.3.0
